@@ -21,7 +21,7 @@ trait BasicVersion {
   lazy val slf4j = "1.7.12"
   lazy val akka = "2.4-M1"
 
-  lazy val scalaVersion11 = "2.11.6"
+  lazy val scalaVersion11 = "2.11.7"
   lazy val scalaVersion12 = "2.12.0-M1"
   lazy val integration = "latest.integration"
   lazy val milestone = "latest.milestone"

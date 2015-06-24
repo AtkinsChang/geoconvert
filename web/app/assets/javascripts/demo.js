@@ -57,7 +57,7 @@
             var logger = {
                 "logArea": $("#log"),
                 "scrollBottom": function() {
-                    this.logArea[0].scrollTop = Number.MAX_VALUE;
+                    this.logArea[0].scrollTop = 10000;
                 },
                 "newLine": function() {
                     this.logArea.append($("<br />"));

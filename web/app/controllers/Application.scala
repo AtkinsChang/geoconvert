@@ -78,10 +78,10 @@ class Application @Inject() (@Named("compiler") actor: ActorRef) extends Control
          |  val TWD97 = BASE ON GRS80 CENTRAL (121 d) SCALE_FACTOR 0.9999 X_TRANSLATION 250000
          |
          |  val p1 = (121 d 30 m 27.0176 s, 25 d 2 m 56.07074 s)
+         |  // convergence
+         |  'p1_cov := CONVERGENCE (p1) WITH TWD97
          |  // projection
          |  'p1_pro := PROJECT (p1) WITH TWD97
-         |  // coverage
-         |  'p1_cov := CONVERGENCE (p1) WITH TWD97
          |
          |  'a := PROJECT (121 d, 23.5 d) WITH TWD97
          |
