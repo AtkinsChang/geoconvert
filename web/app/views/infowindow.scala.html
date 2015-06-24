@@ -1,0 +1,17 @@
+@import edu.nccu.plsm.geo.projection.Result
+
+@(symbol: Symbol, r: Result)
+@round(double: Double) = {
+    @{BigDecimal(double).setScale(5, BigDecimal.RoundingMode.HALF_UP)}
+}
+<div class="info_window">
+    <h2>@symbol.name</h2>
+    <p>Latitude：  @r.from.latitude</p>
+    <p>Longitude： @r.from.longitude</p>
+    @if(r.result.size == 2) {
+        <p>TWD97 Easting:  @round(r.result.head) m</p>
+        <p>TWD97 Northing: @round(r.result.last) m</p>
+    } else {
+        <p>Convergence of Meridian: @round(r.result.last) rad</p>
+    }
+</div>

@@ -1,0 +1,27 @@
+@()
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Demo</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+    </head>
+    <body>
+        <pre id="editor" class="top_frame"></pre>
+        <pre id="log" class="bottom_frame"></pre>
+        <div id="sandbox" class="top_frame">
+            <div id="map-canvas"></div>
+        </div>
+    </body>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/ace/1.1.9/min/ace.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/ace/1.1.9/min/ext-language_tools.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/ace/1.1.9/min/ext-static_highlight.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/ace/1.1.9/min/mode-scala.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/ace/1.1.9/min/theme-twilight.js"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("javascripts/demo.js")"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" />
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/demo.css")" />
+</html>
