@@ -57,7 +57,7 @@
             var logger = {
                 "logArea": $("#log"),
                 "scrollBottom": function() {
-                    this.logArea[0].scrollTop = 10000;
+                    this.logArea[0].scrollTop = this.logArea[0].scrollHeight;
                 },
                 "newLine": function() {
                     this.logArea.append($("<br />"));
@@ -83,64 +83,6 @@
                     this.log(msg, "#E95065");
                 }
             };
-
-            var editor = ace.edit("editor");
-            editor.setTheme("ace/theme/twilight");
-            editor.renderer.setShowGutter(false);
-            editor.setShowPrintMargin(false);
-            editor.getSession().setMode("ace/mode/scala");
-            editor.commands.addCommand({
-                "name": "Compile",
-                "bindKey": {
-                    "win": "Ctrl-Enter|Cmd-Enter",
-                    "mac": "Ctrl-Enter|Cmd-Enter",
-                    "sender":"editor|cli"
-                },
-                "exec": compile
-            });
-            editor.getSession().setTabSize(2);
-            $.ajax({
-                type: "GET",
-                url: "/buildinfo",
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                cache: true,
-                success: function (json) {
-                    var url = "https://github.com/AtkinsChang/geoconvert";
-                    logger.logArea.append(
-                        $("<div>").append("Enter ").append(
-                            $("<span>").html("Cmd/Ctrl-Enter").css({"color": "#E5C453"})
-                        ).append(" to compile")
-                    );
-                    logger.logArea.append(
-                        $("<div>").append("Source code: ")
-                            .append(
-                            $("<a>")
-                                .attr('href', url)
-                                .html(url)
-                        )
-                    );
-                    for(var k in json) {
-                        logger.logArea.append(
-                            $("<div>").append("- ").append(
-                                $("<span>").html(k).css({"color": "#46BDDF"})
-                            ).append(": ").append(
-                                $("<span>").html(json[k]).css({"color": "#52D273"})
-                            )
-                        );
-                    }
-                    logger.newLine();
-                }
-            });
-            $.ajax({
-                type: "GET",
-                url: "/sample",
-                cache: true,
-                success: function (response) {
-                    editor.getSession().setValue(response);
-                }
-            });
-
             window._gmap_init = function () {
                 var mapOptions = {
                     zoom: 17,
@@ -185,7 +127,68 @@
                 window._gmap_marker = [];
                 delete window._gmap_init;
             };
+            window._compile_count = 0;
 
+            var editor = ace.edit("editor");
+            editor.setTheme("ace/theme/twilight");
+            editor.renderer.setShowGutter(false);
+            editor.setShowPrintMargin(false);
+            editor.getSession().setMode("ace/mode/scala");
+            editor.commands.addCommand({
+                "name": "Compile",
+                "bindKey": {
+                    "win": "Ctrl-Enter|Cmd-Enter",
+                    "mac": "Ctrl-Enter|Cmd-Enter",
+                    "sender":"editor|cli"
+                },
+                "exec": function() {
+                    ga('send', 'event', 'dsl-code', 'compile', 'bindKey', ++window._compile_count);
+                    compile();
+                }
+            });
+            editor.getSession().setTabSize(2);
+            $.ajax({
+                type: "GET",
+                url: "/sample",
+                cache: true,
+                success: function (response) {
+                    editor.getSession().setValue(response);
+                    editor.focus();
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: "/buildinfo",
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                cache: true,
+                success: function (json) {
+                    var url = "https://github.com/AtkinsChang/geoconvert";
+                    logger.logArea.append(
+                        $("<div>").append("Enter ").append(
+                            $("<span>").html("Cmd/Ctrl-Enter").css({"color": "#E5C453"})
+                        ).append(" to compile")
+                    );
+                    logger.logArea.append(
+                        $("<div>").append("Source code: ")
+                            .append(
+                            $("<a>")
+                                .attr('href', url)
+                                .html(url)
+                        )
+                    );
+                    for(var k in json) {
+                        logger.logArea.append(
+                            $("<div>").append("- ").append(
+                                $("<span>").html(k).css({"color": "#46BDDF"})
+                            ).append(": ").append(
+                                $("<span>").html(json[k]).css({"color": "#52D273"})
+                            )
+                        );
+                    }
+                    logger.newLine();
+                }
+            });
             var script = document.createElement("script");
             script.type = "text/javascript";
             script.src = "//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&signed_in=true&callback=_gmap_init";
