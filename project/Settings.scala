@@ -162,5 +162,4 @@ object Settings {
     "-Ywarn-unused-import",
     "-Ywarn-value-discard"
   )
-
 }
